@@ -1,6 +1,7 @@
 import itertools
 from validate_docbr import CPF
 from validate_email import validate_email
+from datetime import datetime
 
 
 class UserClass:
@@ -21,8 +22,8 @@ class UserClass:
             raise ValueError("Telefone Inválido")
         else:
             self.__phone_number = phone_number
-        # self.__created_at = created_at
-        # self.__updated_at = updated_at
+        self.__created_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
+        self.__updated_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
 
     @property
     def id(self):
