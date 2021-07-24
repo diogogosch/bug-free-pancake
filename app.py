@@ -1,13 +1,13 @@
-import os
+from flask import Flask, request
 
-from flask import Flask
+import user_model
 
-import user
-
-user_00 = user.User('Diogo', '04188442913', 'diogogosch@gmail.com', '41988880087')
-user_01 = user.User('Ruy', '51459418972', 'rvieirag@gmail.com', '47984349315')
-
+user_00 = user_model.User('Diogo', '04188442913', 'diogogosch@gmail.com', '41988880087')
+user_01 = user_model.User('Ruy', '51459418972', 'rvieirag@gmail.com', '47984349315')
+print(user_01.name)
 app = Flask(__name__)
 
-if __name__ == '__main__':
-    print('app.py sendo executado')
+
+@app.route("/")
+def hello_world():
+    return "<p>Hello, World!</p>"
