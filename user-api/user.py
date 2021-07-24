@@ -4,11 +4,11 @@ from validate_email import validate_email
 from datetime import datetime
 
 
-class UserClass:
+class User:
     user_id = itertools.count()
 
     def __init__(self, name, cpf, email, phone_number):
-        self.__id = next(UserClass.user_id)
+        self.__id = next(User.user_id)
         self.__name = name.lower().capitalize()
         if not CPF(cpf):
             raise ValueError("CPF Inválido")
