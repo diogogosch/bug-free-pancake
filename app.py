@@ -1,13 +1,22 @@
-from flask import Flask, request
+from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 
-import user_model
-
-user_00 = user_model.User('Diogo', '04188442913', 'diogogosch@gmail.com', '41988880087')
-user_01 = user_model.User('Ruy', '51459418972', 'rvieirag@gmail.com', '47984349315')
-print(user_01.name)
 app = Flask(__name__)
+app.config.from_pyfile('config.py')
+db = SQLAlchemy(app)
+db.init_app(app)
+from views import *
 
 
-@app.route("/")
-def hello_world():
-    return "<p>Hello, World!</p>"
+def init_db():
+    db.create_all()
+
+
+# @app.shell_context_processor
+# def make_shell_context():
+#     return dict(db=models.db)
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
+    init_db()
