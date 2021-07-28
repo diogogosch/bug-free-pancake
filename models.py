@@ -1,8 +1,6 @@
 from validate_docbr import CPF
 from validate_email import validate_email
 from datetime import datetime
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 from app import app, db
 
 
@@ -57,6 +55,8 @@ class User:
 
 
 class UserDB(db.Model):
+
+    __tablename__ = 'userDB'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80), nullable=False)
     cpf = db.Column(db.String(11), unique=True, nullable=False)
