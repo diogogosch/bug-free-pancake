@@ -2,7 +2,10 @@ from validate_docbr import CPF
 from validate_email import validate_email
 from datetime import datetime
 from app import app, db
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, Integer, String, DateTime
 
+Base = declarative_base()
 
 class User:
 
@@ -54,16 +57,16 @@ class User:
             self._phone_number = phone_number_updated
 
 
-class UserDB(db.Model):
+class UserDB(Base):
 
     __tablename__ = 'userDB'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(80), nullable=False)
-    cpf = db.Column(db.String(11), unique=True, nullable=False)
-    email = db.Column(db.String(120), nullable=False)
-    phone_number = db.Column(db.String(14), nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    id = Column(Integer, primary_key=True)
+    name = Column(String(80), nullable=False)
+    cpf = db.Column(String(11), unique=True, nullable=False)
+    email = Column(String(120), nullable=False)
+    phone_number = Column(String(14), nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
 
     def __repr__(self):
         return '<User %r>' % self.name
