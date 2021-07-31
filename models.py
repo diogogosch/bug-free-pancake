@@ -1,11 +1,8 @@
 from validate_docbr import CPF
 from validate_email import validate_email
 from datetime import datetime
-from app import app, db
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime
 
-Base = declarative_base()
+valid_cpf = CPF()
 
 class User:
 
@@ -29,7 +26,7 @@ class User:
 
     @cpf.setter
     def cpf(self, cpf_updated):
-        if not CPF(cpf_updated):
+        if not valid_cpf.validate(cpf_updated):
             raise ValueError("CPF Inválido")
         else:
             self._cpf = cpf_updated
@@ -57,38 +54,15 @@ class User:
             self._phone_number = phone_number_updated
 
 
-class UserDB(Base):
-
-    __tablename__ = 'userDB'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(80), nullable=False)
-    cpf = db.Column(String(11), unique=True, nullable=False)
-    email = Column(String(120), nullable=False)
-    phone_number = Column(String(14), nullable=False)
-    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
-
-    def __repr__(self):
-        return '<User %r>' % self.name
-
-
 class Order:
 
-    def __init__(self, user_id, item_description, item_quantity, item_price):
+    def __init__(self, item_description, item_quantity, item_price):
         self.__item_description = item_description
         self.__item_quantity = float(item_quantity)
         self.__item_price = float(item_price)
         self.__total_value = self.__item_quantity * self.__item_price
         self.__created_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
         self.__updated_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
-
-    @property
-    def id(self):
-        return self.__id
-
-    @property
-    def user_id(self):
-        return self.__user_id
 
     @property
     def item_description(self):
