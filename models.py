@@ -1,6 +1,5 @@
 from validate_docbr import CPF
 from validate_email import validate_email
-from datetime import datetime
 
 valid_cpf = CPF()
 
@@ -78,6 +77,7 @@ class OrderModel:
 
     @item_description.setter
     def item_description(self, item_description_updated):
+        assert type(item_description_updated) is str
         self.__item_description = item_description_updated
 
     @property
@@ -86,6 +86,7 @@ class OrderModel:
 
     @item_quantity.setter
     def item_quantity(self, item_quantity_updated):
+        assert type(item_quantity_updated) is str
         self.__item_quantity = float(item_quantity_updated)
         self.__total_value = self.__item_quantity * self.__item_price
 
@@ -95,6 +96,7 @@ class OrderModel:
 
     @item_price.setter
     def item_price(self, item_price_updated):
+        assert type(item_price_updated) is str
         self.__item_price = float(item_price_updated)
         self.__total_value = self.__item_quantity * self.__item_price
 

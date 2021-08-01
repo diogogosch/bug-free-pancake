@@ -24,12 +24,12 @@ def create_user():
     return redirect("/")
 
 
-@app.route("/all_users")
+@app.route("/all_users", methods=['GET', ])
 def view_all_users():
     return get_all_users()
 
 
-@app.route("/user", methods=['POST', ])
+@app.route("/user", methods=['GET', ])
 def view_user():
     data_from_request = request.get_json(force=True)
     if 'id' in data_from_request:
@@ -51,7 +51,7 @@ def update_user():
     return redirect("/")
 
 
-@app.route("/delete_user", methods=['POST', ])
+@app.route("/delete_user", methods=['DELETE', ])
 def delete_user():
     data_from_request = request.get_json(force=True)
     delete_user_by_id(data_from_request['id'])
@@ -69,12 +69,12 @@ def create_order():
     return redirect("/")
 
 
-@app.route("/all_orders", methods=['POST'])
+@app.route("/all_orders", methods=['GET'])
 def view_all_orders():
     return get_all_orders()
 
 
-@app.route("/order", methods=['POST', ])
+@app.route("/order", methods=['GET', ])
 def get_orders():
     data_from_request = request.get_json(force=True)
     if 'id' in data_from_request:
@@ -94,7 +94,7 @@ def update_order():
     return redirect("/")
 
 
-@app.route("/delete_order", methods=['POST', ])
+@app.route("/delete_order", methods=['DELETE', ])
 def delete_order():
     data_from_request = request.get_json(force=True)
     delete_order_by_id(data_from_request['id'])
