@@ -1,5 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
+from sqlalchemy.orm import relationship
 from datetime import datetime
 from app import engine
 
@@ -16,11 +17,27 @@ class UserDB(Base):
     phone_number = Column(String(14), nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    order = relationship('OrderDB', back_populates='user')
 
     def __repr__(self):
         return f'User {self.name}'
 
 
+class OrderDB(Base):
+    __tablename__ = 'orders'
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    item_description = Column(String(255), nullable=False)
+    item_quantity = Column(Float, nullable=False)
+    item_price = Column(Float, nullable=False)
+    total_value = Column(Float, nullable=False)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    user = relationship('UserDB', back_populates='order')
+
+    def __repr__(self):
+        return f'Order {self.id}'
+
+
 Base.metadata.create_all(engine)
-
-

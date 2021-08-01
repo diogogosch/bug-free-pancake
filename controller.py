@@ -1,9 +1,11 @@
 from flask import request
 from app import app
-from models import UserModel
-from services import add_to_db, get_all_users, get_user_by_id, \
+from models import UserModel, OrderModel
+from services import add_user_to_db, get_all_users, get_user_by_id, \
     get_user_by_name, get_user_by_cpf, update_user_by_id, \
-    delete_user_by_id
+    delete_user_by_id, add_order_to_db, get_all_orders, \
+    get_order_by_id, get_orders_by_user_id, update_order_by_id, \
+    delete_order_by_id
 
 
 @app.route('/')
@@ -18,8 +20,7 @@ def create_user():
                      data_from_request['cpf'],
                      data_from_request['email'],
                      data_from_request['phone_number'])
-    status = add_to_db(user)
-
+    status = add_user_to_db(user)
     return 'Operation finished, {}'.format(status)
 
 
@@ -39,7 +40,7 @@ def view_user():
         return get_user_by_name(data_from_request['name'])
 
 
-@app.route("/update_user", methods=['POST', ])
+@app.route("/update_user", methods=['PUT', ])
 def update_user():
     data_from_request = request.get_json(force=True)
     updated_user = UserModel(data_from_request['name'],
@@ -50,8 +51,51 @@ def update_user():
     return 'User Updated'
 
 
-@app.route("/delete_user", methods=['POST',])
+@app.route("/delete_user", methods=['POST', ])
 def delete_user():
     data_from_request = request.get_json(force=True)
     delete_user_by_id(data_from_request['id'])
     return 'User deleted'
+
+
+@app.route("/create_order", methods=['POST', ])
+def create_order():
+    data_from_request = request.get_json(force=True)
+    new_order = OrderModel(data_from_request['user_id'],
+                           data_from_request['item_description'],
+                           data_from_request['item_quantity'],
+                           data_from_request['item_price'])
+    status = add_order_to_db(new_order)
+    return 'Operation finished, {}'.format(status)
+
+
+@app.route("/all_orders", methods=['POST'])
+def view_all_orders():
+    return get_all_orders()
+
+
+@app.route("/order", methods=['POST', ])
+def get_orders():
+    data_from_request = request.get_json(force=True)
+    if 'id' in data_from_request:
+        return get_order_by_id(data_from_request['id'])
+    if 'user_id' in data_from_request:
+        return get_orders_by_user_id(data_from_request['user_id'])
+
+
+@app.route("/update_order", methods=['PUT', ])
+def update_order():
+    data_from_request = request.get_json(force=True)
+    updated_order = OrderModel(data_from_request['user_id'],
+                               data_from_request['item_description'],
+                               data_from_request['item_quantity'],
+                               data_from_request['item_price'])
+    update_order_by_id(str(data_from_request['id']), updated_order)
+    return 'User Updated'
+
+
+@app.route("/delete_order", methods=['POST', ])
+def delete_order():
+    data_from_request = request.get_json(force=True)
+    delete_order_by_id(data_from_request['id'])
+    return 'Order deleted'

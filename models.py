@@ -57,32 +57,37 @@ class UserModel:
 
 class OrderModel:
 
-    def __init__(self, item_description, item_quantity, item_price):
+    def __init__(self, user_id, item_description, item_quantity, item_price):
+        self.__user_id = user_id
         self.__item_description = item_description
         self.__item_quantity = float(item_quantity)
         self.__item_price = float(item_price)
         self.__total_value = self.__item_quantity * self.__item_price
-        self.__created_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
-        self.__updated_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
+
+    @property
+    def user_id(self):
+        return self.__user_id
+
+    @user_id.setter
+    def user_id(self, user_id_updated):
+        self.__user_id = user_id_updated
 
     @property
     def item_description(self):
-        return
+        return self.__item_description
 
     @item_description.setter
     def item_description(self, item_description_updated):
         self.__item_description = item_description_updated
-        self.__updated_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
 
     @property
     def item_quantity(self):
-        return
+        return self.__item_quantity
 
     @item_quantity.setter
     def item_quantity(self, item_quantity_updated):
         self.__item_quantity = float(item_quantity_updated)
         self.__total_value = self.__item_quantity * self.__item_price
-        self.__updated_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
 
     @property
     def item_price(self):
@@ -92,12 +97,7 @@ class OrderModel:
     def item_price(self, item_price_updated):
         self.__item_price = float(item_price_updated)
         self.__total_value = self.__item_quantity * self.__item_price
-        self.__updated_at = datetime.now().strftime("%Y_%m_%d-%H:%M:%S")
 
     @property
-    def created_at(self):
-        return self.__created_at
-
-    @property
-    def updated_at(self):
-        return self.__updated_at
+    def total_value(self):
+        return self.__total_value
