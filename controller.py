@@ -13,14 +13,14 @@ def index():
     return "Homepage API Users & Orders - Serasa-db"
 
 
-@app.route("/create_user", methods=['POST', ])
+@app.route("/user", methods=['POST', ])
 def create_user():
     data_from_request = request.get_json(force=True)
     user = UserModel(data_from_request['name'],
                      data_from_request['cpf'],
                      data_from_request['email'],
                      data_from_request['phone_number'])
-    status = add_user_to_db(user)
+    add_user_to_db(user)
     return redirect("/")
 
 
@@ -40,32 +40,28 @@ def view_user():
         return get_user_by_name(data_from_request['name'])
 
 
-@app.route("/update_user", methods=['PUT', ])
+@app.route("/user", methods=['PUT', ])
 def update_user():
     data_from_request = request.get_json(force=True)
-    updated_user = UserModel(data_from_request['name'],
-                             data_from_request['cpf'],
-                             data_from_request['email'],
-                             data_from_request['phone_number'])
-    update_user_by_id(str(data_from_request['id']), updated_user)
+    update_user_by_id(str(data_from_request['id']), data_from_request)
     return get_user_by_id(data_from_request['id'])
 
 
-@app.route("/delete_user", methods=['DELETE', ])
+@app.route("/user", methods=['DELETE', ])
 def delete_user():
     data_from_request = request.get_json(force=True)
     delete_user_by_id(data_from_request['id'])
     return redirect("/")
 
 
-@app.route("/create_order", methods=['POST', ])
+@app.route("/order", methods=['POST', ])
 def create_order():
     data_from_request = request.get_json(force=True)
     new_order = OrderModel(data_from_request['user_id'],
                            data_from_request['item_description'],
                            data_from_request['item_quantity'],
                            data_from_request['item_price'])
-    status = add_order_to_db(new_order)
+    add_order_to_db(new_order)
     return redirect("/")
 
 
@@ -83,18 +79,14 @@ def get_orders():
         return get_orders_by_user_id(data_from_request['user_id'])
 
 
-@app.route("/update_order", methods=['PUT', ])
+@app.route("/order", methods=['PUT', ])
 def update_order():
     data_from_request = request.get_json(force=True)
-    updated_order = OrderModel(data_from_request['user_id'],
-                               data_from_request['item_description'],
-                               data_from_request['item_quantity'],
-                               data_from_request['item_price'])
-    update_order_by_id(str(data_from_request['id']), updated_order)
+    update_order_by_id(str(data_from_request['id']), data_from_request)
     return get_order_by_id(data_from_request['id'])
 
 
-@app.route("/delete_order", methods=['DELETE', ])
+@app.route("/order", methods=['DELETE', ])
 def delete_order():
     data_from_request = request.get_json(force=True)
     delete_order_by_id(data_from_request['id'])

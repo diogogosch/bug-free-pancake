@@ -1,4 +1,5 @@
 from db import UserDB, OrderDB
+from models import UserModel, OrderModel
 from app import session
 from datetime import datetime
 
@@ -81,8 +82,13 @@ def get_user_by_cpf(request_cpf):
     return ret
 
 
-def update_user_by_id(request_id, user_class):
+def update_user_by_id(request_id, data):
     user_to_update = session.query(UserDB).get(request_id)
+    user_name = data['name'] if data.get('name') else user_to_update.name
+    user_cpf = data['cpf'] if data.get('cpf') else user_to_update.cpf
+    user_email = data['email'] if data.get('email') else user_to_update.email
+    user_phone_number = data['phone_number'] if data.get('phone_number') else user_to_update.phone_number
+    user_class = UserModel(user_name, user_cpf, user_email, user_phone_number)
     user_to_update.name = user_class.name
     user_to_update.cpf = user_class.cpf
     user_to_update.email = user_class.email
@@ -165,8 +171,13 @@ def get_orders_by_user_id(request_user_id):
     return ret
 
 
-def update_order_by_id(request_id, order_class):
+def update_order_by_id(request_id, data):
     order_to_update = session.query(OrderDB).get(request_id)
+    order_user_id = data['user_id'] if data.get('user_id') else order_to_update.user_id
+    order_item_description = data['item_description'] if data.get('item_description') else order_to_update.item_description
+    order_item_quantity = data['item_quantity'] if data.get('item_quantity') else order_to_update.item_quantity
+    order_item_price = data['item_price'] if data.get('item_price') else order_to_update.item_price
+    order_class = OrderModel(order_user_id, order_item_description, order_item_quantity, order_item_price)
     order_to_update.user_id = order_class.user_id
     order_to_update.item_description = order_class.item_description
     order_to_update.item_quantity = order_class.item_quantity
