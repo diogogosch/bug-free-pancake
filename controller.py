@@ -10,7 +10,7 @@ from services import add_user_to_db, get_all_users, get_user_by_id, \
 
 @app.route('/')
 def index():
-    return "Hello, World!"
+    return "Homepage API Users & Orders - Serasa-db"
 
 
 @app.route("/create_user", methods=['POST', ])
