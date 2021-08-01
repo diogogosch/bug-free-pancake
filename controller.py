@@ -48,7 +48,7 @@ def update_user():
                              data_from_request['email'],
                              data_from_request['phone_number'])
     update_user_by_id(str(data_from_request['id']), updated_user)
-    return redirect("/")
+    return get_user_by_id(data_from_request['id'])
 
 
 @app.route("/delete_user", methods=['DELETE', ])
@@ -91,7 +91,7 @@ def update_order():
                                data_from_request['item_quantity'],
                                data_from_request['item_price'])
     update_order_by_id(str(data_from_request['id']), updated_order)
-    return redirect("/")
+    return get_order_by_id(data_from_request['id'])
 
 
 @app.route("/delete_order", methods=['DELETE', ])
