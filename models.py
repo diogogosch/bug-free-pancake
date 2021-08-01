@@ -4,7 +4,8 @@ from datetime import datetime
 
 valid_cpf = CPF()
 
-class User:
+
+class UserModel:
 
     def __init__(self, name_input, cpf_input, email_input, phone_number_input):
         self.name = name_input
@@ -54,7 +55,7 @@ class User:
             self._phone_number = phone_number_updated
 
 
-class Order:
+class OrderModel:
 
     def __init__(self, item_description, item_quantity, item_price):
         self.__item_description = item_description

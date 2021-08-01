@@ -1,5 +1,5 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, DateTime, MetaData, Table
+from sqlalchemy import Column, Integer, String, DateTime
 from datetime import datetime
 from app import engine
 
