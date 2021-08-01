@@ -1,4 +1,4 @@
-from flask import request
+from flask import request, redirect
 from app import app
 from models import UserModel, OrderModel
 from services import add_user_to_db, get_all_users, get_user_by_id, \
@@ -21,7 +21,7 @@ def create_user():
                      data_from_request['email'],
                      data_from_request['phone_number'])
     status = add_user_to_db(user)
-    return 'Operation finished, {}'.format(status)
+    return redirect("/")
 
 
 @app.route("/all_users")
@@ -48,14 +48,14 @@ def update_user():
                              data_from_request['email'],
                              data_from_request['phone_number'])
     update_user_by_id(str(data_from_request['id']), updated_user)
-    return 'User Updated'
+    return redirect("/")
 
 
 @app.route("/delete_user", methods=['POST', ])
 def delete_user():
     data_from_request = request.get_json(force=True)
     delete_user_by_id(data_from_request['id'])
-    return 'User deleted'
+    return redirect("/")
 
 
 @app.route("/create_order", methods=['POST', ])
@@ -66,7 +66,7 @@ def create_order():
                            data_from_request['item_quantity'],
                            data_from_request['item_price'])
     status = add_order_to_db(new_order)
-    return 'Operation finished, {}'.format(status)
+    return redirect("/")
 
 
 @app.route("/all_orders", methods=['POST'])
@@ -91,11 +91,11 @@ def update_order():
                                data_from_request['item_quantity'],
                                data_from_request['item_price'])
     update_order_by_id(str(data_from_request['id']), updated_order)
-    return 'User Updated'
+    return redirect("/")
 
 
 @app.route("/delete_order", methods=['POST', ])
 def delete_order():
     data_from_request = request.get_json(force=True)
     delete_order_by_id(data_from_request['id'])
-    return 'Order deleted'
+    return redirect("/")
