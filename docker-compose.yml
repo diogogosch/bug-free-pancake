@@ -14,5 +14,15 @@ services:
       - 330
     networks:
       - default
+  nginx:
+    image: nginx:latest
+    container_name: serasa-nginx
+    ports:
+      - 80:80
+      - 443:443
+    expose:
+      - 80
+    networks:
+      - default
 volumes:
   my-db:
