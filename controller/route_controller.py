@@ -1,7 +1,7 @@
 from flask import request, redirect
 from app import app
 from model.models import UserModel, OrderModel
-from services import add_user_to_db, get_all_users, get_user_by_id, \
+from controller.services import add_user_to_db, get_all_users, get_user_by_id, \
     get_user_by_name, update_user_by_id, \
     delete_user_by_id, add_order_to_db, get_all_orders, \
     get_order_by_id, get_orders_by_user_id, update_order_by_id, \

@@ -2,6 +2,7 @@ from flask import Flask
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from cryptography.fernet import Fernet
+import controller.route_controller
 
 app = Flask(__name__)
 engine = create_engine('mysql://root:password@0.0.0.0:3306/my-db', echo=True)
@@ -21,7 +22,7 @@ def load_key():
     return open("secret.key", "rb").read()
 
 
-from controller.controller import *
+from controller.route_controller import *
 
 if __name__ == '__main__':
     app.run(debug=True)
