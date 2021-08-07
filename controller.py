@@ -2,7 +2,7 @@ from flask import request, redirect
 from app import app
 from models import UserModel, OrderModel
 from services import add_user_to_db, get_all_users, get_user_by_id, \
-    get_user_by_name, get_user_by_cpf, update_user_by_id, \
+    get_user_by_name, update_user_by_id, \
     delete_user_by_id, add_order_to_db, get_all_orders, \
     get_order_by_id, get_orders_by_user_id, update_order_by_id, \
     delete_order_by_id
@@ -34,8 +34,8 @@ def view_user():
     data_from_request = request.get_json(force=True)
     if 'id' in data_from_request:
         return get_user_by_id(data_from_request['id'])
-    if 'cpf' in data_from_request:
-        return get_user_by_cpf(data_from_request['cpf'])
+    # if 'cpf' in data_from_request:
+    #     return get_user_by_cpf(data_from_request['cpf'])
     if 'name' in data_from_request:
         return get_user_by_name(data_from_request['name'])
 

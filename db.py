@@ -4,6 +4,7 @@ from sqlalchemy.orm import relationship
 from datetime import datetime
 from app import engine
 
+
 Base = declarative_base()
 
 
@@ -12,9 +13,9 @@ class UserDB(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(80), nullable=False)
-    cpf = Column(String(11), unique=True, nullable=False)
-    email = Column(String(120), nullable=False)
-    phone_number = Column(String(14), nullable=False)
+    cpf = Column(String(255), unique=True, nullable=False)
+    email = Column(String(255), nullable=False)
+    phone_number = Column(String(255), nullable=False)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     order = relationship('OrderDB', back_populates='user')
@@ -41,3 +42,4 @@ class OrderDB(Base):
 
 
 Base.metadata.create_all(engine)
+
