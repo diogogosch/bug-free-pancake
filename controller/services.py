@@ -1,5 +1,5 @@
-from db import UserDB, OrderDB
-from models import UserModel, OrderModel
+from model.db import UserDB, OrderDB
+from model.models import UserModel, OrderModel
 from app import session, load_key
 from datetime import datetime
 from cryptography.fernet import Fernet
@@ -201,6 +201,7 @@ def delete_order_by_id(request_id):
 
 
 def encrypt_item(sens_info):
+    # Encrypts sensible information
     key = load_key()
     to_encrypt = sens_info.encode()
     f = Fernet(key)

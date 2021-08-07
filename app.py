@@ -21,7 +21,7 @@ def load_key():
     return open("secret.key", "rb").read()
 
 
-from controller import *
+from controller.controller import *
 
 if __name__ == '__main__':
     app.run(debug=True)
