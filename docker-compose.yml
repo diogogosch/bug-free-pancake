@@ -9,20 +9,29 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 'password'
     ports:
-      - 3306:3306
+      - "3306:3306"
     expose:
       - 330
+      - 3306
     networks:
       - default
   nginx:
     image: nginx:latest
     container_name: serasa-nginx
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     expose:
       - 80
     networks:
       - default
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    links:
+      - serasa-db
+    depends_on:
+      - serasa-db
 volumes:
   my-db:

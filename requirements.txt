@@ -1,0 +1,7 @@
+flask
+sqlalchemy
+cryptography
+validate_docbr
+validate_email
+mysql
+mysqlclient

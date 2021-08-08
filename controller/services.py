@@ -6,6 +6,7 @@ from cryptography.fernet import Fernet
 
 
 def add_user_to_db(user_class):
+    # Adds a new user to the DB, fails if cpf already exists in db
     add_user = UserDB(name=user_class.name,
                       cpf=encrypt_item(user_class.cpf),
                       email=encrypt_item(user_class.email),
@@ -20,6 +21,7 @@ def add_user_to_db(user_class):
 
 
 def get_all_users():
+    # Returns a list of all users in the db
     user_list = session.query(UserDB).all()
     ret = {"users": []}
     for user in user_list:
@@ -39,6 +41,7 @@ def get_all_users():
 
 
 def get_user_by_id(request_id):
+    # Returns the user with the requested id
     user_list = session.query(UserDB).filter(UserDB.id == request_id)
     ret = {"users": []}
     for user in user_list:
@@ -55,6 +58,7 @@ def get_user_by_id(request_id):
 
 
 def get_user_by_name(request_name):
+    # returns a user list with the name requested
     user_list = session.query(UserDB).filter(UserDB.name == request_name)
     ret = {"users": []}
     for user in user_list:
@@ -70,23 +74,25 @@ def get_user_by_name(request_name):
     return ret
 
 
-# def get_user_by_cpf(request_cpf):
-#     user_list = session.query(UserDB).filter(UserDB.cpf == request_cpf).all()
-#     ret = {"users": []}
-#     for user in user_list:
-#         ret["users"].append(
-#             {
-#                 "id": user.id,
-#                 "name": user.name,
-#                 "cpf": user.cpf,
-#                 "email": user.email,
-#                 "phone_number": user.phone_number
-#             }
-#         )
-#     return ret
+def get_user_by_cpf(request_cpf):
+    # returns the user with the requested CPF number
+    user_list = session.query(UserDB).filter(decrypt_item(UserDB.cpf) == request_cpf).all()
+    ret = {"users": []}
+    for user in user_list:
+        ret["users"].append(
+            {
+                "id": user.id,
+                "name": user.name,
+                "cpf": user.cpf,
+                "email": user.email,
+                "phone_number": user.phone_number
+            }
+        )
+    return ret
 
 
 def update_user_by_id(request_id, data):
+    # updates the user from request id with the data provided
     user_to_update = session.query(UserDB).get(request_id)
     user_name = data['name'] if data.get('name') else user_to_update.name
     user_cpf = data['cpf'] if data.get('cpf') else user_to_update.cpf
@@ -103,6 +109,7 @@ def update_user_by_id(request_id, data):
 
 
 def delete_user_by_id(request_id):
+    # Deletes the user with the provided ID
     user_to_delete = session.query(UserDB).get(request_id)
     session.delete(user_to_delete)
     session.commit()
@@ -110,6 +117,7 @@ def delete_user_by_id(request_id):
 
 
 def add_order_to_db(order_class):
+    # Adds a new order to the DB
     add_order = OrderDB(user_id=order_class.user_id,
                         item_description=order_class.item_description,
                         item_quantity=order_class.item_quantity,
@@ -125,6 +133,7 @@ def add_order_to_db(order_class):
 
 
 def get_all_orders():
+    # Returns a list of all orders
     order_list = session.query(OrderDB).all()
     ret = {"orders": []}
     for order in order_list:
@@ -142,6 +151,7 @@ def get_all_orders():
 
 
 def get_order_by_id(request_id):
+    # Gets order from DB with a request ID
     order_list = session.query(OrderDB).filter(OrderDB.id == request_id)
     ret = {"orders": []}
     for order in order_list:
@@ -159,6 +169,7 @@ def get_order_by_id(request_id):
 
 
 def get_orders_by_user_id(request_user_id):
+    # Returns a list of orders from the requested user ID
     order_list = session.query(OrderDB).filter(OrderDB.user_id == request_user_id)
     ret = {"orders": []}
     for order in order_list:
@@ -176,6 +187,7 @@ def get_orders_by_user_id(request_user_id):
 
 
 def update_order_by_id(request_id, data):
+    # Updates order by order ID
     order_to_update = session.query(OrderDB).get(request_id)
     order_user_id = data['user_id'] if data.get('user_id') else order_to_update.user_id
     order_item_description = data['item_description'] if data.get(
@@ -194,6 +206,7 @@ def update_order_by_id(request_id, data):
 
 
 def delete_order_by_id(request_id):
+    # Deletes order by the order ID
     order_to_delete = session.query(OrderDB).get(request_id)
     session.delete(order_to_delete)
     session.commit()
