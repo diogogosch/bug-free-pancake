@@ -1,5 +1,6 @@
-from model.db import UserDB, OrderDB
-from model.models import UserModel, OrderModel
+from model.db_models import UserDB, OrderDB
+from model.user_model import UserModel
+from model.order_model import OrderModel
 from app import session, load_key
 from datetime import datetime
 from cryptography.fernet import Fernet
